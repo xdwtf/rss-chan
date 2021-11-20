@@ -124,7 +124,7 @@ def rss_monitor(context):
                       if session_rss is None:
                         for x in range(len(feed_urls)):
                           feedx_info = f"/test {feed_urls[x]}"
-                    session_rss.send_message(CHATX_ID, feedx_info)
+                          session_rss.send_message(CHATX_ID, feedx_info)
                         except FloodWait as f:
                             LOGGER.info(f"FloodWait: {f.x} seconds")
                             sleep(f.x)
