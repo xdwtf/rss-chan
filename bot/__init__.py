@@ -22,6 +22,7 @@ try:
     OWNER_ID = int(getConfig('OWNER_ID'))
     CHAT_ID = getConfig('CHAT_ID')
     DELAY = int(getConfig('DELAY'))
+    SESSION_STRING = str(getConfig('SESSION_STRING'))
     DATABASE_URL = getConfig('DATABASE_URL')
     if len(DATABASE_URL) == 0:
         raise KeyError
@@ -32,5 +33,9 @@ try:
     CUSTOM_MESSAGES = getConfig('CUSTOM_MESSAGES')
 except:
     pass
+
+session_rss = None
+if SESSION_STRING is not None and SESSION_STRING != "":
+    session_rss = Client(SESSION_STRING, api_id=int(TELEGRAM_API), api_hash=TELEGRAM_HASH)
 
 updater = Updater(token=BOT_TOKEN, use_context=True)
