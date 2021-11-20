@@ -19,6 +19,8 @@ def getConfig(name: str):
 load_dotenv('config.env')
 
 try:
+    TELEGRAM_API = getConfig('TELEGRAM_API')
+    TELEGRAM_HASH = getConfig('TELEGRAM_HASH')
     BOT_TOKEN = getConfig('BOT_TOKEN')
     OWNER_ID = int(getConfig('OWNER_ID'))
     CHAT_ID = getConfig('CHAT_ID')
