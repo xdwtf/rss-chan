@@ -125,9 +125,8 @@ def rss_monitor(context):
                         for x in range(len(feed_urls)):
                           feedx_info = f"/test {feed_urls[x]}"
                           session_rss.send_message(CHATX_ID, feedx_info)
-                          except FloodWait as f:
-                            LOGGER.info(f"FloodWait: {f.x} seconds")
-                            sleep(f.x)
+                        except FloodWait as f:
+                            LOGGER.info(f)
                             break
                 # overwrite the existing item with the latest item
                             postgres.update(str(rss_d.entries[0]['link']), name, str(rss_d.entries[0]['title']))
