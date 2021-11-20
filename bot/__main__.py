@@ -1,5 +1,5 @@
 from telegram import Bot
-from .modules.rsshandler import rss_init
+from .modules.rsshandler import rss_init, session_rss
 from bot import BOT_TOKEN, updater
 
 def main():
