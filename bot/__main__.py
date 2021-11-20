@@ -1,6 +1,6 @@
 from telegram import Bot
 from .modules.rsshandler import rss_init, session_rss
-from bot import BOT_TOKEN, updater
+from bot import BOT_TOKEN, updater, LOGGER
 
 def main():
     # Bot Commands
