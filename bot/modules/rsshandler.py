@@ -127,7 +127,7 @@ def rss_monitor(context):
                         session_rss.send_message(CHATX_ID, feedx_info)
                         except FloodWait as f:
                             LOGGER.info(f"FloodWait: {f.x} seconds")
-                            sleep(e.x)
+                            sleep(f.x)
                             break
                 # overwrite the existing item with the latest item
                             postgres.update(str(rss_d.entries[0]['link']), name, str(rss_d.entries[0]['title']))
