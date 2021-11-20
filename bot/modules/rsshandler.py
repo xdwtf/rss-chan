@@ -125,7 +125,7 @@ def rss_monitor(context):
                             session_rss.send_message(CHAT_ID, feed_info)
                 # overwrite the existing item with the latest item
                             postgres.update(str(rss_d.entries[0]['link']), name, str(rss_d.entries[0]['title']))
-        except IndexError:
+                  except IndexError:
             LOGGER.info(f"There was an error while parsing this feed: {url_list[0]}")
             continue
         else:
