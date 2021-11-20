@@ -6,6 +6,7 @@ from bot import updater, owner_filter, LOGGER, session_rss, \
 from .dbhandler import postgres, rss_dict
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler
+from pyrogram.errors import FloodWait
 
 # RSS Operations
 def cmd_rss_start(update, context):
@@ -123,9 +124,12 @@ def rss_monitor(context):
                     else:
                         try:
                             session_rss.send_message(CHAT_ID, feed_info)
+                        except FloodWait as f:
+                            LOGGER.info(f)
+                            break
                 # overwrite the existing item with the latest item
                             postgres.update(str(rss_d.entries[0]['link']), name, str(rss_d.entries[0]['title']))
-                  except IndexError:
+        except IndexError:
             LOGGER.info(f"There was an error while parsing this feed: {url_list[0]}")
             continue
         else:
