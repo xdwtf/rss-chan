@@ -2,6 +2,7 @@ import os
 import logging
 from dotenv import load_dotenv
 from telegram.ext import Updater, CommandHandler, MessageFilter
+from pyrogram import Client
 
 # Prevent unauthorised access to the bot
 class OwnerFilter(MessageFilter):
