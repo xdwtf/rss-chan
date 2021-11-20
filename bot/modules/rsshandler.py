@@ -1,7 +1,7 @@
 import feedparser
 
 from bot import updater, owner_filter, LOGGER, session_rss, \
-                CHAT_ID, DELAY, CUSTOM_MESSAGES
+                CHAT_ID, CHATX_ID, DELAY, CUSTOM_MESSAGES
 
 from .dbhandler import postgres, rss_dict
 from telegram.error import BadRequest
