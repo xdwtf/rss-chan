@@ -15,6 +15,9 @@ def main():
         ]
     bot.set_my_commands(botcmds)
     rss_init()
+    if session_rss is not None:
+        session_rss.start()
+        LOGGER.info("Ok SESSION_STRING using for RSS feeds.")
 
 main()
 updater.start_polling()
