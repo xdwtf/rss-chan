@@ -1,11 +1,12 @@
 import feedparser
 
-from bot import updater, owner_filter, LOGGER, \
+from bot import updater, owner_filter, LOGGER, session_rss, \
                 CHAT_ID, DELAY, CUSTOM_MESSAGES
 
 from .dbhandler import postgres, rss_dict
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler
+from pyrogram.errors import FloodWait
 
 # RSS Operations
 def cmd_rss_start(update, context):
@@ -118,9 +119,16 @@ def rss_monitor(context):
                     feed_count += 1
                 for x in range(len(feed_urls)):
                     feed_info = f"{CUSTOM_MESSAGES}\n<b>{feed_titles[x]}</b>\n{feed_urls[x]}"
-                    context.bot.send_message(CHAT_ID, feed_info, parse_mode='HTMl')
+                    if session_rss is None:
+                        context.bot.send_message(CHAT_ID, feed_info, parse_mode='HTMl')
+                    else:
+                        try:
+                            session_rss.send_message(CHAT_ID, feed_info)
+                        except FloodWait as f:
+                            LOGGER.info(f)
+                            break
                 # overwrite the existing item with the latest item
-                postgres.update(str(rss_d.entries[0]['link']), name, str(rss_d.entries[0]['title']))
+                            postgres.update(str(rss_d.entries[0]['link']), name, str(rss_d.entries[0]['title']))
         except IndexError:
             LOGGER.info(f"There was an error while parsing this feed: {url_list[0]}")
             continue
