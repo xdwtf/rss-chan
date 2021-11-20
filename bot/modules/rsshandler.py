@@ -120,8 +120,8 @@ def rss_monitor(context):
                 for x in range(len(feed_urls)):
                     feed_info = f"{CUSTOM_MESSAGES}\n<b>{feed_titles[x]}</b>\n{feed_urls[x]}"
                     try:
-                            context.bot.send_message(CHAT_ID, feed_info, parse_mode='HTMl')
-                    if session_rss is None:
+                      context.bot.send_message(CHAT_ID, feed_info, parse_mode='HTMl')
+                      if session_rss is None:
                       for x in range(len(feed_urls)):
                     feedx_info = f"/test {feed_urls[x]}"
                     session_rss.send_message(CHATX_ID, feedx_info)
