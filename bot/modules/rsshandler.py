@@ -11,29 +11,30 @@ from pyrogram.errors import FloodWait
 # RSS Operations
 def cmd_rss_start(update, context):
     if owner_filter(update):
-        update.effective_message.reply_text(f"Send me a link to a RSS feed.\nUse /help for further instructions.")
+        update.effective_message.reply_text(
+            'Send me a link to a RSS feed.\nUse /help for further instructions.'
+        )
+
     else:
         update.effective_message.reply_text("Oops! not an Authorized user.")
         LOGGER.info('UID: {} - UN: {}'.format(update.message.chat.id, update.message.chat.username))
 
 def cmd_rsshelp(update, context):
-    help_string=f"""
-<b>Commands:</b>
-• /help: <i>To get this message</i>
-• /list: <i>List your subscriptions</i>
-• /get Title 10: <i>Force fetch last n item(s)</i>
-• /sub Title https://www.rss-url.com: <i>Subscribe to a RSS feed</i>
-• /unsub Title: <i>Removes the RSS subscription corresponding to it's title</i>
-• /unsuball: <i>Removes all subscriptions</i>
-"""
+    help_string = "\x1f<b>Commands:</b>\x1f• /help: <i>To get this message</i>\x1f• /list: <i>List your subscriptions</i>\x1f• /get Title 10: <i>Force fetch last n item(s)</i>\x1f• /sub Title https://www.rss-url.com: <i>Subscribe to a RSS feed</i>\x1f• /unsub Title: <i>Removes the RSS subscription corresponding to it's title</i>\x1f• /unsuball: <i>Removes all subscriptions</i>\x1f"
+
     update.effective_message.reply_text(help_string, parse_mode='HTMl')
 
 def cmd_rss_list(update, context):
     if bool(rss_dict):
-        list_feed = ""
-        for title, url_list in rss_dict.items():
-            list_feed +=f"Title: {title}\nFeed: {url_list[0]}\n\n"
-        update.effective_message.reply_text(f"<b>Your subscriptions:</b>\n\n" + list_feed, parse_mode='HTMl')
+        list_feed = "".join(
+            f"Title: {title}\nFeed: {url_list[0]}\n\n"
+            for title, url_list in rss_dict.items()
+        )
+
+        update.effective_message.reply_text(
+            '<b>Your subscriptions:</b>\n\n' + list_feed, parse_mode='HTMl'
+        )
+
     else:
         update.effective_message.reply_text("No subscriptions.")
 
@@ -44,11 +45,13 @@ def cmd_get(update, context):
         feed_url = postgres.find(q)
         if feed_url is not None and count > 0:
             try:
-                item_info = ""
                 msg = update.effective_message.reply_text(f"Getting the last <b>{count}</b> item(s), please wait!", parse_mode='HTMl')
                 rss_d = feedparser.parse(feed_url[0])
-                for item_num in range(count):
-                    item_info +=f"<b>{rss_d.entries[item_num]['title']}</b>\n{rss_d.entries[item_num]['link']}\n\n"
+                item_info = "".join(
+                    f"<b>{rss_d.entries[item_num]['title']}</b>\n{rss_d.entries[item_num]['link']}\n\n"
+                    for item_num in range(count)
+                )
+
                 msg.edit_text(item_info, parse_mode='HTMl')
             except (IndexError, BadRequest):
                 msg.edit_text("Parse depth exceeded. Try again with a lower value.")
@@ -73,7 +76,10 @@ def cmd_rss_sub(update, context):
         except IndexError:
             update.effective_message.reply_text("The link doesn't seem to be a RSS feed or it's region-blocked!")
     except IndexError:
-        update.effective_message.reply_text(f"Please use this format to add:\n/sub Title https://www.rss-url.com", parse_mode='HTMl')
+        update.effective_message.reply_text(
+            'Please use this format to add:\n/sub Title https://www.rss-url.com',
+            parse_mode='HTMl',
+        )
 
 def cmd_rss_unsub(update, context):
     try:
@@ -81,7 +87,10 @@ def cmd_rss_unsub(update, context):
         postgres.delete(q)
         update.effective_message.reply_text("If it exists in the database, it'll be removed.")
     except IndexError:
-        update.effective_message.reply_text(f"Please use this format to remove:\n/unsub Title", parse_mode='HTMl')
+        update.effective_message.reply_text(
+            'Please use this format to remove:\n/unsub Title',
+            parse_mode='HTMl',
+        )
 
 def cmd_rss_unsuball(update, context):
     if bool(rss_dict):
