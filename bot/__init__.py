@@ -24,6 +24,7 @@ try:
     BOT_TOKEN = getConfig('BOT_TOKEN')
     OWNER_ID = int(getConfig('OWNER_ID'))
     CHAT_ID = getConfig('CHAT_ID')
+    CHATX_ID = getConfig('CHATX_ID')
     DELAY = int(getConfig('DELAY'))
     SESSION_STRING = str(getConfig('SESSION_STRING'))
     DATABASE_URL = getConfig('DATABASE_URL')
